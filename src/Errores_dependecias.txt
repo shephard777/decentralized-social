@@ -1,0 +1,2 @@
+1- Algo que pude ver ahor. Cunado estaba importando ethers es que la importacion no es ethers. Sino que se debe usar para importar BrowserProvider para referirse a la hora de importar.
+2- Debemos tener cuidado con los errores tipograficos a la hora de programa. Ya que muchas veces por la por la falta de una palabra.

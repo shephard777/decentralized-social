@@ -1,7 +1,7 @@
 import { createClient } from "urql";
 
 export const APIURL = "http://api.lens.dev";
-export const LENS_HUB_CONTACT_ADDRESS = "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
+export const LENS_HUB_CONTRACT_ADDRESS =     "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d";
 
 export const urlClient = createClient({
     url: APIURL,
