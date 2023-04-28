@@ -60,6 +60,18 @@ function App() {
     getPosts();
   })
   
+  const parseImageUrl = (profile) =>{
+    if (profile) {
+      const url = profile.picture?.original?.url;
+      if (url && url.startsWith("ipfs:")) {
+        const ipfHash = url.split("//")[1];
+        return `https://gateway.pinate.cloud/ipfs${ipfHash}`;
+      }
+      return url;
+    }
+    return "default-avatar.png";
+  }
+  
   
   return <div className="app">
     <Box width="100%" backgroundColor="rgba(5, 32, 64, 28)">
@@ -107,16 +119,55 @@ function App() {
             <Box display="flex">
               {/**Profile Image */}
               <Box width="75px" height="75px" marginTop="8px">
-                <img
+                <Image
                   alt="profile"
-                  src={post.profile ? post.profile.picture?.original?.url : "/default-avatar.png"} width="75px" height="75px" onError={({currentTarget}) => {
+                  src={parseImageUrl(post)} width="75px" height="75px" onError={({currentTarget}) => {
                     currentTarget.onerror = null; // prevent looping
                     currentTarget.src = "/default-avatar.png"
                   }} />
               </Box>
+              
+              {/**Post Content */}
+              <Box flexGrow={1} marginLeft="20px">
+                <Box display="flex" justifyContent="space-between">
+                  <Box fontFamily="DM Serif Display" fontSize="24px">
+                    {post.profile?.handle}
+                  </Box>
+                  <Box height="50px" _hover={{cursor: "pointer"}}>
+                    <Image 
+                      alt="follow-icon"
+                      src="/public/follow-icon.png"
+                      width="50px"
+                      height="50px"
+                      onClick={() => follow(post.id)}
+                    />
+                  </Box>
+                </Box>
+              </Box>
             </Box>
           </Box>
         ))}
+      </Box>
+      
+      {/**Friend suggestions */}
+      <Box width="30%" backgroundColor="rgba(5,32,64,28)" padding="40px 25px" borderRadius="6px" height="fit-content">
+        <Box fontFamily="DM serif Display">Friend Suggestions</Box>
+        <Box>
+          {profiles.map((profile, i) => {
+            <Box key={profile.id} margin="30px 0" display="flex" alignItems="center" height="40px" _hover={{color: "#808080", cursor: "pointer"}}>
+               <Image
+                  alt="profile"
+                  src={parseImageUrl(profile)} width="75px" height="75px" onError={({currentTarget}) => {
+                    currentTarget.onerror = null; // prevent looping
+                    currentTarget.src = "/default-avatar.png"
+                  }} />
+                  <Box marginLeft="25px">
+                    <h4>{profile.name}</h4>
+                    <p>{profile.handle}</p>
+                  </Box>
+            </Box>
+          })}
+        </Box>
       </Box>
     </Box>
   </div>;
